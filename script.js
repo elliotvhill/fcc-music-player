@@ -131,4 +131,12 @@ playButton.addEventListener("click", () => {
     }
 })
 
+const pauseSong = () => {
+    userData.songCurrentTime = audio.currentTime
+    playButton.classList.remove("playing")
+    audio.pause()
+}
+
+pauseButton.addEventListener("click", pauseSong)
+
 renderSongs(sortSongs())
