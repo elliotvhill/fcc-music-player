@@ -1,0 +1,2 @@
+## Music Player
+Following along on freeCodeCamp's _[JavaScript String and Array Methods Music Player](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures-v8/#learn-basic-string-and-array-methods-by-building-a-music-player)_ lesson.
