@@ -241,5 +241,19 @@ resetButton.addEventListener('click', () => {
     setPlayButtonAccessibleText()
     resetButton.remove()
 })
+audio.addEventListener("ended", () => {
+    const currentSongIndex = getCurrentSongIndex()
+    const nextSongExists = userData.songs.length - 1 > currentSongIndex ? true : false
+    if (nextSongExists) {
+        playNextSong()
+    } else {
+        userData.currentSong = null
+        userData.songCurrentTime = 0
+    }
+    pauseSong()
+    setPlayerDisplay()
+    highlightCurrentSong()
+    setPlayButtonAccessibleText()
+})
 
 renderSongs(sortSongs())
