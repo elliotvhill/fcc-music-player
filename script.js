@@ -190,6 +190,16 @@ const setPlayButtonAccessibleText = () => {
     playButton = playButton.setAttribute("aria-label", song?.title ? `"Play ${song.title}` : "Play")
 }
 
+const shuffle = () => {
+    userData?.songs.sort(() => Math.random() - 0.5)
+    userData.currentSong = null
+    userData.songCurrentTime = 0
+    renderSongs(userData?.songs)
+    pauseSong()
+    setPlayerDisplay()
+    setPlayButtonAccessibleText()
+}
+
 playButton.addEventListener('click', () => {
     if (!userData?.currentSong) {
         playSong(userData?.songs[0].id)
@@ -200,5 +210,6 @@ playButton.addEventListener('click', () => {
 pauseButton.addEventListener('click', pauseSong)
 nextButton.addEventListener('click', playNextSong)
 previousButton.addEventListener('click', playPreviousSong)
+shuffleButton.addEventListener('click', shuffle)
 
 renderSongs(sortSongs())
