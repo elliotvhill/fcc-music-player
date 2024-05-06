@@ -129,6 +129,7 @@ const playSong = (id) => {
     playButton.classList.add('playing')
     highlightCurrentSong()
     setPlayerDisplay()
+    setPlayButtonAccessibleText()
     audio.play()
 }
 
@@ -182,6 +183,11 @@ const setPlayerDisplay = () => {
     const currentArtist = userData?.currentSong?.artist
     playingSong.textContent = currentTitle ? currentTitle : ''
     songArtist.textContent = currentArtist ? currentArtist : ''
+}
+
+const setPlayButtonAccessibleText = () => {
+    const song = userData?.currentSong || userData?.songs[0]
+    playButton = playButton.setAttribute("aria-label", song?.title ? `"Play ${song.title}` : "Play")
 }
 
 playButton.addEventListener('click', () => {
