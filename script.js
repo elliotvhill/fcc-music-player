@@ -123,13 +123,6 @@ const playSong = (id) => {
     audio.play()
 }
 
-playButton.addEventListener("click", () => {
-    if (!userData?.currentSong) {
-        playSong(userData?.songs[0].id)
-    } else {
-        playSong(userData?.currentSong.id)
-    }
-})
 
 const pauseSong = () => {
     userData.songCurrentTime = audio.currentTime
@@ -137,10 +130,31 @@ const pauseSong = () => {
     audio.pause()
 }
 
-pauseButton.addEventListener("click", pauseSong)
 
 const getCurrentSongIndex = () => {
     return userData?.songs.indexOf(userData?.currentSong)
 }
+
+const playNextSong = () => {
+    if (userData?.currentSong === null) {
+        playSong(userData?.songs[0].id)
+    } else {
+        const currentSongIndex = getCurrentSongIndex()
+        const nextSong = userData?.songs[currentSongIndex + 1]
+        playSong(nextSong.id)
+    }
+}
+
+const playPreviousSong = () => {}
+
+playButton.addEventListener("click", () => {
+    if (!userData?.currentSong) {
+        playSong(userData?.songs[0].id)
+    } else {
+        playSong(userData?.currentSong.id)
+    }
+})
+pauseButton.addEventListener("click", pauseSong)
+nextButton.addEventListener("click", playNextSong)
 
 renderSongs(sortSongs())
