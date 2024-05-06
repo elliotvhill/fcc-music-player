@@ -102,8 +102,12 @@ const renderSongs = (array) => {
 }
 const sortSongs = () => {
     userData?.songs.sort((a, b) => {
-        if (a.title < b.title) { return -1 }
-        if (a.title > b.title) { return 1 }
+        if (a.title < b.title) {
+            return -1
+        }
+        if (a.title > b.title) {
+            return 1
+        }
         return 0
     })
     return userData?.songs
@@ -113,23 +117,25 @@ const playSong = (id) => {
     const song = userData?.songs.find((song) => song.id === id)
     audio.src = song.src
     audio.title = song.title
-    if (userData?.currentSong === null || userData?.currentSong.id !== song.id) {
+    if (
+        userData?.currentSong === null ||
+        userData?.currentSong.id !== song.id
+    ) {
         audio.currentTime = 0
     } else {
         audio.currentTime = userData?.songCurrentTime
     }
     userData.currentSong = song
-    playButton.classList.add("playing")
+    playButton.classList.add('playing')
+    highlightCurrentSong()
     audio.play()
 }
 
-
 const pauseSong = () => {
     userData.songCurrentTime = audio.currentTime
-    playButton.classList.remove("playing")
+    playButton.classList.remove('playing')
     audio.pause()
 }
-
 
 const getCurrentSongIndex = () => {
     return userData?.songs.indexOf(userData?.currentSong)
@@ -145,16 +151,43 @@ const playNextSong = () => {
     }
 }
 
-const playPreviousSong = () => {}
+const playPreviousSong = () => {
+    if (userData?.currentSong === null) {
+        return
+    } else {
+        const currentSongIndex = getCurrentSongIndex()
+        const previousSong = userData?.songs[currentSongIndex - 1]
+        playSong(previousSong.id)
+    }
+}
 
-playButton.addEventListener("click", () => {
+const highlightCurrentSong = () => {
+    const playlistSongElements = document.querySelectorAll('.playlist-song')
+    const songToHighlight = document.getElementById(`song-${userData?.currentSong?.id}`)
+    playlistSongElements.forEach((songEl) => {
+        songEl.removeAttribute("aria-current")
+        if (songToHighlight) {
+            songToHighlight.setAttribute("aria-current", "true")
+        }
+    })
+}
+
+const setPlayerDisplay = () => {
+    const playingSong = document.getElementById("player-song-title")
+    const songArtist = document.getElementById("player-song-artist")
+    const currentTitle = userData?.currentSong?.title
+    const currentArtist = userData?.currentSong?.artist
+}
+
+playButton.addEventListener('click', () => {
     if (!userData?.currentSong) {
         playSong(userData?.songs[0].id)
     } else {
         playSong(userData?.currentSong.id)
     }
 })
-pauseButton.addEventListener("click", pauseSong)
-nextButton.addEventListener("click", playNextSong)
+pauseButton.addEventListener('click', pauseSong)
+nextButton.addEventListener('click', playNextSong)
+previousButton.addEventListener('click', playPreviousSong)
 
 renderSongs(sortSongs())
